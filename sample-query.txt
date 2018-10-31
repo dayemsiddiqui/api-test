@@ -1,0 +1,48 @@
+query userCurrentModule {
+        userCurrentModule {
+            moduleId
+            isLastModule
+            completedByTimeModalSeen
+            title
+            introduction
+            goal
+            startDate
+            dayCount
+            completeDayTransition
+            lastCompletedMomentDate
+            iconName
+            moments {
+                momentId
+                userMomentId
+                deliveryMethod
+                moduleId
+                description
+                title
+                textDuration
+                congratulatory
+                lastCompletedMomentDate
+                iconName
+                cueRecommendations {
+                    recommendation
+                    iconName
+                }
+                geoCue {
+                    name
+                    addressName
+                    send
+                }
+                timeCue {
+                    time
+                    repeat
+                }
+                media {
+                    id
+                    url
+                    duration
+                    durationUnit
+                    deliveryMethod
+                }
+                hasFeedBack
+            }
+        }
+    }
