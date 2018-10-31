@@ -1,2 +1,5 @@
 .vscode/
 *.pyc
+dist/static/*
+dist/
+node_modules/

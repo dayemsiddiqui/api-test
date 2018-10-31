@@ -2,8 +2,8 @@ import requests
 from multiprocessing.pool import ThreadPool
 from prettytable import PrettyTable
 
-
-def run_query(query, threadId, headers, base_url): # A simple function to use requests.post to make the API call. Note the json= section.
+# A simple function to use requests.post to make the API call. Note the json= section.
+def run_query(query, threadId, headers, base_url): 
     # print("Thread {}: Started ".format(threadId))
     request = requests.post(base_url, json={'query': query}, headers=headers)
     if request.status_code == 200:
