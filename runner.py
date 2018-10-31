@@ -26,7 +26,7 @@ def run_query(query, threadId, headers, base_url): # A simple function to use re
         return (0, response_time)
 
 
-def spawn_threads(total_thread_count, query, headers, base_url):
+def spawn_threads(total_thread_count, query, headers, base_url, pool):
     results = []
     for i in range(0, total_thread_count):
         results.append(pool.apply_async(run_query, (query, i, headers, base_url)))
@@ -56,7 +56,7 @@ def execute(query, url, headers, total_calls):
     pool = ThreadPool(processes=total_calls)
     
     ## Spawn threads to call endpoints
-    threads = spawn_threads(total_calls, query, headers, url)
+    threads = spawn_threads(total_calls, query, headers, url, pool)
 
     ## Get the results
     result = get_result(threads, total_attempts=total_calls)
@@ -79,7 +79,7 @@ def print_result(result):
 # The GraphQL query (with a few aditional bits included) itself defined as a multi-line string.       
 query = """
 query userCurrentModule {
-        userCurrentModule {hasattr
+        userCurrentModule {
             moduleId
             isLastModule
             completedByTimeModalSeen
