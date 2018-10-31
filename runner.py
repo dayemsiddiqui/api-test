@@ -1,5 +1,6 @@
 import requests
 from multiprocessing.pool import ThreadPool
+from prettytable import PrettyTable
 
 
 def run_query(query, threadId, headers, base_url): # A simple function to use requests.post to make the API call. Note the json= section.
@@ -68,69 +69,17 @@ def execute(query, url, headers, total_calls):
     return result
 
 def print_result(result):
-    print("=========================================================")
-    print("Total API Requests Attempted: {}".format(result["total_attempts"]))
-    print("Total Successful Requests: {}".format(result["successful_attempts"]))
-    print("Total Failed Requests: {}".format(result["failed_attempts"]))
-    print("Avg Response Time per request:  {} seconds".format(result["avg_response_time"]))
-    print("=========================================================")
+    x = PrettyTable()
+    x.field_names = ["Metric Name", "Result"]
+    x.add_row(["Total API Requests Attempted", result["total_attempts"]])
+    x.add_row(["Total Successful Requests", result["successful_attempts"]])
+    x.add_row(["Total Failed Requests", result["failed_attempts"]])
+    x.add_row(["Avg Response Time per request in seconds", result["avg_response_time"]])
+
+    print(x)
 
 
-# The GraphQL query (with a few aditional bits included) itself defined as a multi-line string.       
-query = """
-query userCurrentModule {
-        userCurrentModule {
-            moduleId
-            isLastModule
-            completedByTimeModalSeen
-            title
-            introduction
-            goal
-            startDate
-            dayCount
-            completeDayTransition
-            lastCompletedMomentDate
-            iconName
-            moments {
-                momentId
-                userMomentId
-                deliveryMethod
-                moduleId
-                description
-                title
-                textDuration
-                congratulatory
-                lastCompletedMomentDate
-                iconName
-                cueRecommendations {
-                    recommendation
-                    iconName
-                }
-                geoCue {
-                    name
-                    addressName
-                    send
-                }
-                timeCue {
-                    time
-                    repeat
-                }
-                media {
-                    id
-                    url
-                    duration
-                    durationUnit
-                    deliveryMethod
-                }
-                hasFeedBack
-            }
-        }
-    }
-"""
-call_count = 10
-headers = {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6InVzZXItMWFlMTQzODYxMWExM2RiODcyODAyMzMyOWY1ZTM5NmQiLCJlbWFpbCI6ImtpZmZhbEB5b3BtYWlsLmNvbSIsImFub255bW91cyI6ZmFsc2UsInRva2VuVmFsaWRhdG9yIjoiYTcyYzA4NjEzMjg5OTAzNjc4OWU5NWFjZDEzNTE2NGEwMjIxN2Y5MDViNjU2MzNkZWIwMzk5ZmJjOTJmZjM5MWQ0NGRlNjIzZWY1NDBlNWQyYzdjYjNmNmZjOGIxY2VjIiwib3JnYW5pemF0aW9uSWQiOiJvcmdhbml6YXRpb24tZmQ3NzkzMzgtMTM2MS00Nzg5LThkYTgtMWVhMzdiMGEzOTA2IiwiY29ob3J0SWQiOiJjb2hvcnQtYTg1NTg2NGUtMTJiOS00ZTM0LWJkMWYtMmE4OWU1ODFkZTFiIiwiaWF0IjoxNTQwMzU5MTkwfQ.qjECI-uETB7yRgHBFkumi1GOBhVvlChOnoU26iQ41Jg"}
-BASE_URL = 'http://localhost:3000/graphql'
 
 
-report = execute(query, BASE_URL, headers, call_count)
-print_result(report)
+# report = execute(query, BASE_URL, headers, call_count)
+# print_result(report)
