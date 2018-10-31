@@ -1,2 +1,5 @@
+requests==2.20.0
 Click==7.0
-requests==2.19.1
+PTable==0.9.2
+Flask==1.0.2
+prettytable==7
